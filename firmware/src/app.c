@@ -281,7 +281,7 @@ bool APP_Write_Tasks(void)
             
             /* to run the application in a continuous loop,  
              * set next state to TxRx_TO_EXTERNAL_SLAVE_1 */
-            appWriteState = TxRx_COMPLETED;
+            appWriteState = TxRx_COMPLETED; //
             
             
             break;
