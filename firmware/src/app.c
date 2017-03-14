@@ -79,7 +79,9 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 APP_DATA appData;
 uint8_t deviceAddress;
 /* I2C Driver TX buffer  */
-uint8_t         TXbuffer[] = "AA";
+uint8_t         TXbuffer[] = {0,0,0};
+uint8_t         TXbuffer_1[] = {0x15,0x30};
+
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Callback Functions
@@ -193,13 +195,11 @@ void APP_Tasks ( void )
             appData.drvI2CHandle = DRV_I2C_Open( DRV_I2C_INDEX_0,DRV_IO_INTENT_WRITE );
             DRV_I2C_BufferEventHandlerSet(appData.drvI2CHandle, I2CMasterOpStatusCb, i2cOpStatus );                           
             if (appData.drvI2CHandle == DRV_HANDLE_INVALID)
-            {
-               
+            {  
             //Client cannot open instance
             }
             else
             {
-            
             }
             appData.state = APP_STATE_IDLE;
             
@@ -208,12 +208,13 @@ void APP_Tasks ( void )
 
         case APP_STATE_SEND:
         {
-            LED1On();
+            LED1Toggle();
          //   DelayMs(300);
          //   LED2Toggle();
             if (APP_Write_Tasks())
             {
                appData.state = APP_STATE_IDLE;
+               
             }
             break;
         }
@@ -238,9 +239,7 @@ bool APP_Write_Tasks(void)
         {    
 
             deviceAddress = PORTEXT_SLAVE_ADDRESS;
-
             /* Write Transaction - 1 to Port Extender */
-
             if ( (appData.appI2CWriteBufferHandle == (DRV_I2C_BUFFER_HANDLE) NULL) || 
                     (APP_Check_Transfer_Status(appData.drvI2CHandle, appData.appI2CWriteBufferHandle) == DRV_I2C_BUFFER_EVENT_COMPLETE) || 
                         (APP_Check_Transfer_Status(appData.drvI2CHandle, appData.appI2CWriteBufferHandle) == DRV_I2C_BUFFER_EVENT_ERROR) )
@@ -253,7 +252,7 @@ bool APP_Write_Tasks(void)
             }
             
             appWriteState = STATUS_CHECK;
-            
+            DelayMs(15);
             break;
         }   
         case STATUS_CHECK:
@@ -273,7 +272,7 @@ bool APP_Write_Tasks(void)
             DelayMs(300);
             
            // LED1Toggle(); 
-            LED2Toggle(); 
+            
                                                 
             /* to run the application only once,  
              * set next state to TxRx_COMPLETED */
@@ -287,7 +286,7 @@ bool APP_Write_Tasks(void)
             break;
         }
         case TxRx_COMPLETED:
-        {
+        {   LED2Toggle();
             return true;
             break;
         }
@@ -337,16 +336,10 @@ void I2CMasterOpStatusCb ( DRV_I2C_BUFFER_EVENT event,
 /***********************************************************
  *   Millisecond Delay function using the Count register
  *   in coprocessor 0 in the MIPS core.
- *   When running 200 MHz, CoreTimer frequency is 100 MHz
- *   CoreTimer increments every 2 SYS_CLK, CoreTimer period = 10ns
- *   1 ms = N x CoreTimer_period;
- *   To count 1ms, N = 100000 counts of CoreTimer
- *   1 ms = 10 ns * 100000 = 10e6 ns = 1 ms
  *   When running 80 MHz, CoreTimer frequency is 40 MHz 
  *   CoreTimer increments every 2 SYS_CLK, CoreTimer period = 25ns
  *   To count 1ms, N = 40000 counts of CoreTimer
  *   1ms = 25 ns * 40000 = 10e6 ns = 1 ms
- *   ms_SCALE = (GetSystemClock()/2000) @ 200 MHz = 200e6/2e3 = 100e3 = 100000
  *   ms_SCLAE = (GetSystemClock()/2000) @ = 80e6/2e3 = 40e3 = 40000 
  */
  
@@ -361,16 +354,10 @@ void DelayMs(unsigned long int msDelay )
 /***********************************************************
  *   Microsecond Delay function using the Count register
  *   in coprocessor 0 in the MIPS core.
- *   When running 200 MHz, CoreTimer frequency is 100 MHz
- *   CoreTimer increments every 2 SYS_CLK, CoreTimer period = 10ns
- *   1 us = N x CoreTimer_period;
- *   To count 1us, N = 100 counts of CoreTimer
- *   1 us = 10 ns * 100 = 1000 ns  = 1us
  *   When running 80 MHz, CoreTimer frequency is 40 MHz 
  *   CoreTimer increments every 2 SYS_CLK, CoreTimer period = 25ns
  *   To count 1us, N = 40 counts of CoreTimer
  *   1us = 25 ns * 40 = 1000 ns = 1 us
- *   us_SCALE = (GetSystemClock()/2000) @ 200 MHz = 200e6/2e6 = 100 
  *   us_SCLAE = (GetSystemClock()/2000) @ 80 MHz = 80e6/2e6 = 40 
  */
  
@@ -381,7 +368,6 @@ void DelayUs(unsigned long int usDelay )
  
       while( ReadCoreTimer() - startCnt < waitCnt );
 }
- 
 
 /*******************************************************************************
  End of File
