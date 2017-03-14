@@ -99,7 +99,6 @@ void I2CMasterOpStatusCb ( DRV_I2C_BUFFER_EVENT event,
 // *****************************************************************************
 // *****************************************************************************
 static uint32_t ReadCoreTimer(void);
-
 static uint32_t ReadCoreTimer()
 {
     volatile uint32_t timer;
@@ -111,8 +110,7 @@ static uint32_t ReadCoreTimer()
 }
 
 void DelayMs(unsigned long int msDelay );
-
-void DelayMs(unsigned long int msDelay );
+void DelayUs(unsigned long int usDelay );
 
 DRV_I2C_BUFFER_EVENT i2cOpStatus;
 
