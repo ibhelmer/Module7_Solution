@@ -165,7 +165,7 @@
       <Template dnOrder="4">
         <Name dnOrder="0">drv_i2c_static_buffer_model.c</Name>
         <Path dnOrder="1">Source Files/app/system_config/default/framework/driver/i2c/src</Path>
-        <Checksum dnOrder="2">ED5832BDAD705953D5950ABF54A31FFC</Checksum>
+        <Checksum dnOrder="2">F45D2B2344CBDE899DD841252FAD3FD8</Checksum>
       </Template>
       <Template dnOrder="5">
         <Name dnOrder="0">drv_tmr_mapping.c</Name>

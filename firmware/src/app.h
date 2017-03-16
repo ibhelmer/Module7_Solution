@@ -58,7 +58,8 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include <stdlib.h>
 #include "system_config.h"
 #include "system_definitions.h"
-
+#include "delay.h"
+#include "lcd.h"
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility
 
@@ -201,7 +202,7 @@ void APP_Initialize ( void );
  */
 
 void APP_Tasks( void );
-
+void writeI2C(unsigned char reg, unsigned char val );
 
 #endif /* _APP_H */
 

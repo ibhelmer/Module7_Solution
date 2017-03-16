@@ -198,5 +198,7 @@ build/default/production/_ext/639803181/sys_clk.o:  \
  ../../../../framework/osal/osal_definitions.h  \
  ../../../../framework/osal/src/osal_impl_basic.h  \
 ../src/app.h  \
+ ../src/delay.h  \
+../src/lcd.h  \
  ../src/system_config/default/framework/system/clk/src/sys_clk_local.h  \
  ../../../../framework/system/clk/src/sys_clk_variant_mapping.h 

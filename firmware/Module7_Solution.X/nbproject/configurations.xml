@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configurationDescriptor version="62">
   <logicalFolder name="root" displayName="root" projectFiles="true">
+    <logicalFolder name="f1" displayName="Documentation" projectFiles="true">
+      <itemPath>../src/LCD.pdf</itemPath>
+      <itemPath>../src/MPC23017.pdf</itemPath>
+      <itemPath>../src/PIC32MX250.pdf</itemPath>
+    </logicalFolder>
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
@@ -35,6 +40,10 @@
           </logicalFolder>
         </logicalFolder>
         <itemPath>../src/app.h</itemPath>
+        <itemPath>../src/LCD.h</itemPath>
+        <itemPath>../src/mcp23s17.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f3" displayName="Delay" projectFiles="true">
       </logicalFolder>
       <logicalFolder name="f1" displayName="framework" projectFiles="true">
         <logicalFolder name="f1" displayName="driver" projectFiles="true">
@@ -153,6 +162,11 @@
         </logicalFolder>
         <itemPath>../src/app.c</itemPath>
         <itemPath>../src/main.c</itemPath>
+        <itemPath>../src/LCD.c</itemPath>
+        <itemPath>../src/MCP23S17.c</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f3" displayName="Delay" projectFiles="true">
+        <itemPath>../src/delay.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="framework" projectFiles="true">
         <logicalFolder name="f1" displayName="system" projectFiles="true">

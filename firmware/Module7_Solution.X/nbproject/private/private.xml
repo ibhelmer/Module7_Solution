@@ -3,8 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/microchip/harmony/v2_02_00b/apps/Module7_Solution/firmware/src/app.c</file>
             <file>file:/D:/microchip/harmony/v2_02_00b/apps/Module7_Solution/firmware/src/system_config/default/system_interrupt.c</file>
-            <file>file:/D:/microchip/harmony/v2_02_00b/apps/Module7_Solution/firmware/src/system_config/default/framework/driver/i2c/src/drv_i2c_static_buffer_model.c</file>
+            <file>file:/D:/microchip/harmony/v2_02_00b/apps/Module7_Solution/firmware/src/main.c</file>
+            <file>file:/D:/microchip/harmony/v2_02_00b/apps/Module7_Solution/firmware/src/LCD.h</file>
+            <file>file:/D:/microchip/harmony/v2_02_00b/apps/Module7_Solution/firmware/src/app.h</file>
+            <file>file:/D:/microchip/harmony/v2_02_00b/apps/Module7_Solution/firmware/src/MCP23S17.c</file>
+            <file>file:/D:/microchip/harmony/v2_02_00b/apps/Module7_Solution/firmware/src/mcp23s17.h</file>
+            <file>file:/D:/microchip/harmony/v2_02_00b/apps/Module7_Solution/firmware/src/LCD.c</file>
         </group>
     </open-files>
 </project-private>

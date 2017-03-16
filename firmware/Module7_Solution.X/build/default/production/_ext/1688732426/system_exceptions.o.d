@@ -200,4 +200,6 @@ build/default/production/_ext/1688732426/system_exceptions.o:  \
  ../../../../framework/osal/src/osal_impl_basic.h  \
 ../src/app.h  \
  ../src/system_config/default/system_definitions.h  \
- ../../../../framework/system/debug/sys_debug.h 
+../src/delay.h  \
+ ../src/lcd.h  \
+../../../../framework/system/debug/sys_debug.h 

@@ -221,7 +221,7 @@ void _DRV_I2C_Advance_Queue_0(void)
 void DRV_I2C0_Initialize(void)
 {
     /* Initialize I2C0 */
-    PLIB_I2C_BaudRateSet(I2C_ID_2, SYS_CLK_PeripheralFrequencyGet(CLK_BUS_PERIPHERAL_1), 100000);
+    PLIB_I2C_BaudRateSet(I2C_ID_2, SYS_CLK_PeripheralFrequencyGet(CLK_BUS_PERIPHERAL_1), 400000);
     PLIB_I2C_StopInIdleDisable(I2C_ID_2);
 
     /* Low frequency is enabled (**NOTE** PLIB function logic reverted) */

@@ -1,7 +1,7 @@
-build/default/production/_ext/1360937237/app.o:  \
-../src/app.c  \
-../src/app.h  \
- ../src/system_config/default/system_config.h  \
+build/default/production/_ext/1360937237/LCD.o:  \
+../src/LCD.c  \
+ ../src/delay.h  \
+../src/system_config/default/system_config.h  \
  ../src/system_config/default/system_definitions.h  \
  ../../../../framework/system/common/sys_common.h  \
  ../../../../framework/system/common/sys_module.h  \
@@ -199,5 +199,5 @@ build/default/production/_ext/1360937237/app.o:  \
  ../../../../framework/osal/osal_definitions.h  \
  ../../../../framework/osal/src/osal_impl_basic.h  \
 ../src/app.h  \
- ../src/delay.h  \
-../src/lcd.h 
+ ../src/lcd.h  \
+../src/mcp23s17.h 

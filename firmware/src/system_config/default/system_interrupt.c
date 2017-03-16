@@ -79,9 +79,7 @@ void __ISR(_TIMER_3_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance0(void)
 void __ISR(_I2C_2_VECTOR, ipl1AUTO) _IntHandlerDrvI2CInstance0(void)
 {
 	DRV_I2C0_Tasks();
- 
 }
-  
  /*******************************************************************************
  End of File
 */
