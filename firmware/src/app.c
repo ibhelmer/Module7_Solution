@@ -29,7 +29,7 @@
 // *****************************************************************************
 
 #include "app.h"
-
+#include "lcd.h"
 // *****************************************************************************
 // *****************************************************************************
 // Section: Global Data Definitions
@@ -40,7 +40,7 @@
 APP_DATA appData;
 uint8_t I2C_Dev_Adr;
 /* I2C Driver TX buffer  */
-uint8_t      TXbuffer[] = {0,3,0};   
+uint8_t      TXbuffer[] = {0,0};   
 
 // *****************************************************************************
 // *****************************************************************************
@@ -70,7 +70,7 @@ DRV_I2C_BUFFER_EVENT APP_Check_Transfer_Status(DRV_HANDLE drvOpenHandle,
 // Section: Application Local Define
 // *****************************************************************************
 // *****************************************************************************
-//#define GetSystemClock() (SYS_CLK_FREQ)
+#define GetSystemClock() (SYS_CLK_FREQ)
 
 
 /* Address of slave devices */
@@ -84,7 +84,7 @@ DRV_I2C_BUFFER_EVENT APP_Check_Transfer_Status(DRV_HANDLE drvOpenHandle,
 // *****************************************************************************
 /* State Machine for Master Write */
 bool I2C_Write_Tasks(void);
-bool I2C_Init();
+
 
 typedef enum{
     
@@ -129,7 +129,7 @@ void APP_Tasks ( void )
         /* Application's initial state. */
         case APP_STATE_INIT:
         {
-            DRV_TMR0_Start();
+            
             /* Open the I2C Driver */
             appData.drvI2CHandle = DRV_I2C_Open( DRV_I2C_INDEX_0,DRV_IO_INTENT_WRITE );
            
@@ -137,29 +137,24 @@ void APP_Tasks ( void )
             
             if (appData.drvI2CHandle == DRV_HANDLE_INVALID)
             {  
-               //LED2Toggle();
-               //Client cannot open instance
+               //Error response here !!!
             }
             else
             {
               
             }
+            appWriteState = SEND_COMMAND;
+            initLCD();
+            LED1Toggle(); // Init was ok
+            DRV_TMR0_Start();
             appData.state = APP_STATE_IDLE;
-            
             break;
         }
         case APP_STATE_SEND:
         {
-           LED2Toggle();
-           if(I2C_Write_Tasks())
-           {
-           LED1Toggle();
-    //       writeI2C(0x01,0x22);
-             appWriteState = SEND_COMMAND;
-             appData.state = APP_STATE_IDLE;                  
-            }
-            
-           
+            LED2Toggle(); // Ping every 1. sec
+            putsLCD("Hello World");
+            appData.state = APP_STATE_IDLE;                  
             break;
         }
         case APP_STATE_IDLE:
@@ -180,9 +175,8 @@ void writeI2C(unsigned char reg, unsigned char val )
 {
     TXbuffer[0]=reg;
     TXbuffer[1]=val;
-    appWriteState = SEND_COMMAND;
-    while(!I2C_Write_Tasks()) {};
-    
+    while(!I2C_Write_Tasks()) {}; // Not well coded !!!!
+    appWriteState = SEND_COMMAND;  
 }
 
 bool I2C_Write_Tasks(void)
@@ -195,13 +189,13 @@ bool I2C_Write_Tasks(void)
             I2C_Dev_Adr = PORTEXT_SLAVE_ADDRESS; // Set portextender address
             /* Write Transaction - 1 to Port Extender */
             if ( (appData.appI2CWriteBufferHandle == (DRV_I2C_BUFFER_HANDLE) NULL) || 
-                    (APP_Check_Transfer_Status(appData.drvI2CHandle, appData.appI2CWriteBufferHandle) == DRV_I2C_BUFFER_EVENT_COMPLETE) || 
-                    (APP_Check_Transfer_Status(appData.drvI2CHandle, appData.appI2CWriteBufferHandle) == DRV_I2C_BUFFER_EVENT_ERROR) )
+                 (APP_Check_Transfer_Status(appData.drvI2CHandle, appData.appI2CWriteBufferHandle) == DRV_I2C_BUFFER_EVENT_COMPLETE) || 
+                 (APP_Check_Transfer_Status(appData.drvI2CHandle, appData.appI2CWriteBufferHandle) == DRV_I2C_BUFFER_EVENT_ERROR) )
             {
                 appData.appI2CWriteBufferHandle = DRV_I2C_Transmit (  appData.drvI2CHandle,
                                                                       I2C_Dev_Adr,
                                                                       &TXbuffer[0], 
-                                                                      (sizeof(TXbuffer)-1), 
+                                                                      (sizeof(TXbuffer)), 
                                                                       NULL);
 
             }
@@ -217,13 +211,15 @@ bool I2C_Write_Tasks(void)
                
             }
             else
+            {
                 appWriteState = STATUS_CHECK;  
+            }
             break;
         }
         case READY:
         {   
+            DelayMs(10);
             LED2Toggle();
-            appWriteState = SEND_COMMAND;
             return true;
             break;
         }
