@@ -21,7 +21,6 @@
     files.
  *******************************************************************************/
 
-
 // *****************************************************************************
 // *****************************************************************************
 // Section: Included Files 
@@ -70,9 +69,8 @@ DRV_I2C_BUFFER_EVENT APP_Check_Transfer_Status(DRV_HANDLE drvOpenHandle,
 // Section: Application Local Define
 // *****************************************************************************
 // *****************************************************************************
+/* */
 #define GetSystemClock() (SYS_CLK_FREQ)
-
-
 /* Address of slave devices */
 #define PORTEXT_SLAVE_ADDRESS              0x21 << 1  // Address shifted left
 
@@ -122,7 +120,15 @@ void APP_Initialize ( void )
 
 void APP_Tasks ( void )
 {
-
+   unsigned char tegn[]= { 0b00000001,
+                           0b00000011,
+                           0b00000111,
+                           0b00001111,
+                           0b00011111,
+                           0b00001111,
+                           0b00000111,
+                           0b00000011};
+   
     /* Check the application's current state. */
     switch ( appData.state )
     {
@@ -145,6 +151,7 @@ void APP_Tasks ( void )
             }
             appWriteState = SEND_COMMAND;
             initLCD();
+            lcd_user_char(0x02,tegn);
             LED1Toggle(); // Init was ok
             DRV_TMR0_Start();
             appData.state = APP_STATE_IDLE;
@@ -153,7 +160,9 @@ void APP_Tasks ( void )
         case APP_STATE_SEND:
         {
             LED2Toggle(); // Ping every 1. sec
-            putsLCD("Hello World");
+            gotoLCD(2,5);
+            lcd_printf("Hej \x02");
+            //putsLCD("Hello World");
             appData.state = APP_STATE_IDLE;                  
             break;
         }
@@ -171,6 +180,8 @@ void APP_Tasks ( void )
     }
 }
 
+// WARNING !!! this function is blocking and is waiting for the state of the
+// I2C State Machine to enter Ready state and to return true 
 void writeI2C(unsigned char reg, unsigned char val )
 {
     TXbuffer[0]=reg;
@@ -178,53 +189,52 @@ void writeI2C(unsigned char reg, unsigned char val )
     while(!I2C_Write_Tasks()) {}; // Not well coded !!!!
     appWriteState = SEND_COMMAND;  
 }
-
+// State Machine for sending I2C frame 
 bool I2C_Write_Tasks(void)
 {
    
-    switch (appWriteState)
-    {
-        case SEND_COMMAND:
-        {    
-            I2C_Dev_Adr = PORTEXT_SLAVE_ADDRESS; // Set portextender address
-            /* Write Transaction - 1 to Port Extender */
-            if ( (appData.appI2CWriteBufferHandle == (DRV_I2C_BUFFER_HANDLE) NULL) || 
-                 (APP_Check_Transfer_Status(appData.drvI2CHandle, appData.appI2CWriteBufferHandle) == DRV_I2C_BUFFER_EVENT_COMPLETE) || 
-                 (APP_Check_Transfer_Status(appData.drvI2CHandle, appData.appI2CWriteBufferHandle) == DRV_I2C_BUFFER_EVENT_ERROR) )
-            {
-                appData.appI2CWriteBufferHandle = DRV_I2C_Transmit (  appData.drvI2CHandle,
-                                                                      I2C_Dev_Adr,
-                                                                      &TXbuffer[0], 
-                                                                      (sizeof(TXbuffer)), 
-                                                                      NULL);
+   switch (appWriteState)
+   {
+      case SEND_COMMAND:
+      {    
+         I2C_Dev_Adr = PORTEXT_SLAVE_ADDRESS; // Set port extender address
+         /* Write Transaction - 1 to Port Extender */
+         if ( (appData.appI2CWriteBufferHandle == (DRV_I2C_BUFFER_HANDLE) NULL) || 
+              (APP_Check_Transfer_Status(appData.drvI2CHandle, appData.appI2CWriteBufferHandle) == DRV_I2C_BUFFER_EVENT_COMPLETE) || 
+              (APP_Check_Transfer_Status(appData.drvI2CHandle, appData.appI2CWriteBufferHandle) == DRV_I2C_BUFFER_EVENT_ERROR) )
+         {
+            appData.appI2CWriteBufferHandle = DRV_I2C_Transmit (  appData.drvI2CHandle,
+                                                                  I2C_Dev_Adr,
+                                                                  &TXbuffer[0], 
+                                                                  (sizeof(TXbuffer)), 
+                                                                  NULL);
 
-            }
+         }
             appWriteState = STATUS_CHECK;
             break;
-        }   
-        case STATUS_CHECK:
-        {
-            if ( (APP_Check_Transfer_Status(appData.drvI2CHandle, appData.appI2CWriteBufferHandle) == DRV_I2C_BUFFER_EVENT_COMPLETE ) ||
-                 (APP_Check_Transfer_Status(appData.drvI2CHandle, appData.appI2CWriteBufferHandle) == DRV_I2C_BUFFER_EVENT_ERROR) )            
-            { 
-               appWriteState = READY; 
-               
-            }
-            else
-            {
-                appWriteState = STATUS_CHECK;  
-            }
-            break;
-        }
-        case READY:
-        {   
-            DelayMs(10);
-            LED2Toggle();
-            return true;
-            break;
-        }
-    } 
-    return false;
+         }   
+      case STATUS_CHECK:
+      {
+         if ( (APP_Check_Transfer_Status(appData.drvI2CHandle, appData.appI2CWriteBufferHandle) == DRV_I2C_BUFFER_EVENT_COMPLETE ) ||
+              (APP_Check_Transfer_Status(appData.drvI2CHandle, appData.appI2CWriteBufferHandle) == DRV_I2C_BUFFER_EVENT_ERROR) )            
+         { 
+            appWriteState = READY;        
+         }
+         else
+         {
+            appWriteState = STATUS_CHECK;  
+         }
+         break;
+      }
+      case READY:
+      {   
+         DelayMs(1);
+         LED2Toggle();
+         return true;
+         break;
+      }
+   } 
+   return false;
 }
 
 //****************************************************************************/
@@ -236,7 +246,7 @@ bool I2C_Write_Tasks(void)
 //****************************************************************************/
 DRV_I2C_BUFFER_EVENT APP_Check_Transfer_Status(DRV_HANDLE drvOpenHandle, DRV_I2C_BUFFER_HANDLE drvBufferHandle)
 {
-    return (DRV_I2C_TransferStatusGet  (appData.drvI2CHandle, drvBufferHandle));
+   return (DRV_I2C_TransferStatusGet  (appData.drvI2CHandle, drvBufferHandle));
 }
 
 //****************************************************************************/
@@ -264,7 +274,6 @@ void I2CMasterOpStatusCb ( DRV_I2C_BUFFER_EVENT event,
             break;
     }
 }
-
 
 /*******************************************************************************
  End of File
