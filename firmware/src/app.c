@@ -128,7 +128,7 @@ void APP_Tasks ( void )
                            0b00001111,
                            0b00000111,
                            0b00000011};
-   
+   int x = 7913; 
     /* Check the application's current state. */
     switch ( appData.state )
     {
@@ -161,7 +161,7 @@ void APP_Tasks ( void )
         {
             LED2Toggle(); // Ping every 1. sec
             gotoLCD(2,5);
-            lcd_printf("Hej \x02");
+            lcd_printf("Hej %d",x);
             //putsLCD("Hello World");
             appData.state = APP_STATE_IDLE;                  
             break;
