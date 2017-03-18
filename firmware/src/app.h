@@ -59,7 +59,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "system_config.h"
 #include "system_definitions.h"
 #include "delay.h"
-#include "lcd.h"
+//#include "lcd.h"
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility
 
@@ -114,13 +114,11 @@ typedef enum
 typedef struct
 {
     /* The application's current state */
-    APP_STATES state;
-    DRV_HANDLE drvI2CHandle;
-    APP_I2C_BUFFER_HANDLE               appI2CWriteBufferHandle;
-    APP_I2C_BUFFER_HANDLE               appI2CReadBufferHandle;
-    /* TODO: Define any additional data used by the application. */
-
-} APP_DATA;
+    APP_STATES                state;
+    DRV_HANDLE                drvI2CHandle;
+    APP_I2C_BUFFER_HANDLE     appI2CWriteBufferHandle;
+    APP_I2C_BUFFER_HANDLE     appI2CReadBufferHandle;
+ } APP_DATA;
 
 
 // *****************************************************************************
@@ -202,7 +200,6 @@ void APP_Initialize ( void );
  */
 
 void APP_Tasks( void );
-void writeI2C(unsigned char reg, unsigned char val );
 
 #endif /* _APP_H */
 

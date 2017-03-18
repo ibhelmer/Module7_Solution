@@ -120,14 +120,24 @@ void APP_Initialize ( void )
 
 void APP_Tasks ( void )
 {
-   unsigned char tegn[]= { 0b00000001,
-                           0b00000011,
-                           0b00000111,
-                           0b00001111,
-                           0b00011111,
-                           0b00001111,
-                           0b00000111,
-                           0b00000011};
+   unsigned char tegn1[]= {0b00000000,
+                           0b00000000,
+                           0b00011100,
+                           0b00000010,
+                           0b00011001,
+                           0b00000101,
+                           0b00010101,
+                           0b00000000
+                         };
+   unsigned char tegn2[]= {0b00000000,
+                           0b00000000,
+                           0b00000000,
+                           0b00011100,
+                           0b00000110,
+                           0b00011010,
+                           0b00001010,
+                           0b00000000
+                         };
    int x = 7913; 
     /* Check the application's current state. */
     switch ( appData.state )
@@ -151,17 +161,28 @@ void APP_Tasks ( void )
             }
             appWriteState = SEND_COMMAND;
             initLCD();
-            lcd_user_char(0x02,tegn);
+            user_charLCD(0x02,tegn1);
+            user_charLCD(0x03,tegn2);
             LED1Toggle(); // Init was ok
             DRV_TMR0_Start();
             appData.state = APP_STATE_IDLE;
             break;
         }
         case APP_STATE_SEND:
-        {
+        {   
+            static int x=0;
             LED2Toggle(); // Ping every 1. sec
             gotoLCD(2,5);
-            lcd_printf("Hej %d",x);
+            if (x==0)
+            {
+               printfLCD("Hej \x2 ");
+               x++;
+            }
+            else
+            {
+               printfLCD("Hej \x3 ");
+               x=0;
+            }
             //putsLCD("Hello World");
             appData.state = APP_STATE_IDLE;                  
             break;

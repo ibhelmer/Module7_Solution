@@ -198,5 +198,4 @@ build/default/production/_ext/1360937237/delay.o:  \
  ../../../../framework/osal/osal.h  \
  ../../../../framework/osal/osal_definitions.h  \
  ../../../../framework/osal/src/osal_impl_basic.h  \
-../src/app.h  \
- ../src/lcd.h 
+../src/app.h 

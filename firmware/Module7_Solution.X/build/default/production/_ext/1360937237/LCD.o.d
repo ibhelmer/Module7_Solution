@@ -199,5 +199,5 @@ build/default/production/_ext/1360937237/LCD.o:  \
  ../../../../framework/osal/osal_definitions.h  \
  ../../../../framework/osal/src/osal_impl_basic.h  \
 ../src/app.h  \
- ../src/lcd.h  \
-../src/mcp23s17.h 
+ ../src/mcp23017.h  \
+../src/lcd.h 

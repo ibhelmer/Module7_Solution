@@ -1,12 +1,12 @@
 /* 
- * File:   mcp23s17.h
- * Author: IbHelmer
- *
- * Created on 12. februar 2016, 21:10
+ * File:   mcp23017.h
+ * Author: Ib Helmer Nielsen
+ *         University College Nordjylland
+ * Created on 12. februar 2017, 21:10
  */
 
-#ifndef MCP23S17_H
-#define	MCP23S17_H
+#ifndef MCP23017_H
+#define	MCP23017_H
 
 #ifdef	__cplusplus
 extern "C" {
@@ -15,8 +15,8 @@ extern "C" {
 #include <stdlib.h>
 #include <p32xxxx.h>
 #include <xc.h>
-//#include "app.h"
-    
+   
+// MCP23017 register specification    
 #define IODIRA      0x00
 #define IODIRB      0x01
 #define IPOLA       0x02
@@ -39,6 +39,9 @@ extern "C" {
 #define OLATA       0x14
 #define OLATB       0x15
 
+// Port name and port mapping
+#define CNTRL_PORT  PORT_A    // Change according to wiring
+#define DATA_BUS    PORT_B    // Change according to wiring
 #define PORT_A      0x01
 #define PORT_B      0x02
 
@@ -46,7 +49,7 @@ extern "C" {
 extern void portchipsetup();
 extern void portdir(unsigned char port, unsigned char dir );
 extern void portwrite(unsigned char port, unsigned char dat);
-
+extern void writeI2C(unsigned char reg, unsigned char val );
 #ifdef	__cplusplus
 }
 #endif

@@ -199,5 +199,4 @@ build/default/production/_ext/1688732426/system_interrupt.o:  \
  ../../../../framework/osal/osal_definitions.h  \
  ../../../../framework/osal/src/osal_impl_basic.h  \
 ../src/delay.h  \
- ../src/lcd.h  \
-../src/system_config/default/system_definitions.h 
+ ../src/system_config/default/system_definitions.h 

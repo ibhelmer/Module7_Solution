@@ -233,7 +233,7 @@
       <Template dnOrder="18">
         <Name dnOrder="0">sys_clk.c</Name>
         <Path dnOrder="1">Source Files/app/system_config/default/framework/system/clk/src</Path>
-        <Checksum dnOrder="2">7A1A0E4AD091010BE6D9146082711CA5</Checksum>
+        <Checksum dnOrder="2">2DEA481DB7465ECC9ACAA8A78FF2EBAE</Checksum>
       </Template>
       <Template dnOrder="19">
         <Name dnOrder="0">drv_i2c_mapping.c</Name>
