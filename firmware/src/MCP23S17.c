@@ -1,15 +1,15 @@
 /* 
- * File:   mcp23s17.c
- * Author: ihn
- *
+ * File:   mcp23017.h
+ * Author: Ib Helmer Nielsen
+ *         University College Nordjylland
  * Created on 30. januar 2016, 23:07
  */
 
-#include "mcp23s17.h"
+#include "mcp23017.h"
 
 void portchipsetup()
 {
-
+   // Code for setup of interrupt response and bank select can be put here 
 }
 
 void portdir(unsigned char port, unsigned char dir )
@@ -38,5 +38,5 @@ void portwrite(unsigned char port, unsigned char dat)
 }
 unsigned char portread()
 {
-    
+   // Not implemented 
 }
