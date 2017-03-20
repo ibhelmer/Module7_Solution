@@ -25,9 +25,9 @@ void initLCD( void)
     DelayUs(48);                // wait 48us
     cmdLCD(0x38);
     offLCD();
-    cmdLCD(CLRDISP);           // clear display
+    cmdLCD(CLRDISP);            // clear display
     DelayMs(2);                 // wait 2mSec
-    cmdLCD(6);                 // increment cursor, no shift
+    cmdLCD(6);                  // increment cursor, no shift
     DelayMs(2);                 // wait 2mSec
     onLCD();
     DelayMs(2);
@@ -48,8 +48,9 @@ void writeLCD( char addr, unsigned char c)
         portwrite(CNTRL_PORT,0x00);
         portwrite(CNTRL_PORT,E); 
         DelayUs(1);
+        portwrite(CNTRL_PORT,0x00);
     }
-    portwrite(PORT_A,0x00);     // Just for debugging, changing the databus to 0x00 
+    portwrite(DATA_BUS,0x00);   // Just for debugging, changing the databus to 0x00 
     DelayUs(48);                // Wait 48us so LCD is ready
 } // writeLCD
 
